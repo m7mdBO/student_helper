@@ -71,23 +71,33 @@ if st.session_state.page == "flashcards":
             """, unsafe_allow_html=True)
 
         st.markdown("### ")
-        col1, col2 = st.columns([1, 1])
-        with col1:
-            if st.button("🔄 Back to Question"):
-                st.session_state.reveal = False
-                st.rerun()
-        with col2:
-            if index + 1 < len(flashcards):
-                if st.button("➡️ Next Card"):
-                    st.session_state.flashcard_index += 1
-                    st.session_state.reveal = False
-                    st.rerun()
-            else:
-                st.success("🎉 You've reached the end of your flashcards.")
-                if st.button("🔁 Restart"):
-                    st.session_state.flashcard_index = 0
-                    st.session_state.reveal = False
-                    st.rerun()
+        col1, col2, col3 = st.columns([1, 1, 1])
+
+with col1:
+    if st.session_state.flashcard_index > 0:
+        if st.button("⬅️ Previous Card"):
+            st.session_state.flashcard_index -= 1
+            st.session_state.reveal = False
+            st.rerun()
+
+with col2:
+    if st.button("🔄 Back to Question"):
+        st.session_state.reveal = False
+        st.rerun()
+
+with col3:
+    if index + 1 < len(flashcards):
+        if st.button("➡️ Next Card"):
+            st.session_state.flashcard_index += 1
+            st.session_state.reveal = False
+            st.rerun()
+    else:
+        st.success("🎉 You've reached the end of your flashcards.")
+        if st.button("🔁 Restart"):
+            st.session_state.flashcard_index = 0
+            st.session_state.reveal = False
+            st.rerun()
+
     st.stop()
 
 # --- Sidebar API key (persisted) ---
